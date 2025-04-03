@@ -116,6 +116,50 @@ docker run -d \
 
 ```
 
+## Alternative Commands: 
+Run application :    
+```
+docker run -d --name two-tier-app --network mynetwork -p 5000:5000 -e MYSQL_HOST=mysql -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_DB=devops two-tier-app:latest
+```
+
+Run MYSQL application :  
+```
+docker run -d --name mysql --network mynetwork -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=devops mysql
+```  
+
+Login into MYSQL commands :  
+
+Login to the Docker container :  `docker exec -it modest_agnesi bash` (modify the container name)
+
+Login into MYSQL database with cli : 
+1. `mysql -u root -proot `
+
+2. `show databases;`
+3. `USE devops;`
+4. `select * FROM messages;`
+
+## Create a Persistent Volume for MYSQL data restore :
+1. `docker volume create mysql-data`  
+2. `docker inspect mysql-data`  
+
+You can add volume in types
+1. Named volume 
+`docker run -d --network mynetwork -v mysql-data:/var/lib/mysql  -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=devops mysql`
+
+2. Path Volumes  `docker run -d --network mynetwork -v /home/ubuntu/mysql-data:/var/lib/mysql  -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=devops mysql`
+
+Remove the MYSQL container
+
+   `docker stop mysql & docker rm "container-name"`  
+
+Now Try to run again the container with the volume : 
+
+
+ `docker run -d --network mynetwork -v mysql-data/var/lib/mysql  -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=devops mysql`  
+
+Now you can see the data is persist and if the container is removed as well , still the data is there.
+
+
 ## Notes
 
 - Make sure to replace placeholders (e.g., `your_username`, `your_password`, `your_database`) with your actual MySQL configuration.
