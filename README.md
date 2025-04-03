@@ -155,9 +155,17 @@ Remove the MYSQL container
 Now Try to run again the container with the volume : 
 
 
- `docker run -d --network mynetwork -v mysql-data/var/lib/mysql  -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=devops mysql`  
+ `docker run -d --network mynetwork -v mysql-data:/var/lib/mysql  -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=devops mysql`  
 
-Now you can see the data is persist and if the container is removed as well , still the data is there.
+Now you can see the data is persist and if the container is removed as well , still the data is there.  
+
+## Create a Log file for Docker containers :
+
+Create using `nohup`:  
+
+`nohup docker attach 7e5de7022726(Container-id) &` 
+
+`cat nohup.out`
 
 
 ## Notes
@@ -170,5 +178,4 @@ Now you can see the data is persist and if the container is removed as well , st
 
 - If you encounter issues, check Docker logs and error messages for troubleshooting.
 
-```
 

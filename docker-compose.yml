@@ -44,3 +44,6 @@ volumes:
 
 networks:
   twotier:
+    name: two-tier_network
+    driver: bridge
+    
